@@ -21,6 +21,4 @@ public class Option {
     private Integer number;
 
     private String name;
-
-    private int vote;
 }

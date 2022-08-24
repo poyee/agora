@@ -8,7 +8,12 @@ import java.util.List;
 public class PollRequest {
     private String title;
     private String description;
-    private List<String> options;
+    private List<Option> options;
     private Boolean multiVote;
     private Boolean allowNewOption;
+
+    @Data
+    public static class Option {
+        private String option;
+    }
 }
