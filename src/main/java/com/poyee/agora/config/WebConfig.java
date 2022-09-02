@@ -1,6 +1,7 @@
 package com.poyee.agora.config;
 
 import com.poyee.agora.poll.PollController;
+import com.poyee.agora.user.UserController;
 import com.poyee.agora.vote.VoteController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,8 @@ public class WebConfig {
     public Set<Class<?>> ackController() {
         List<Class<?>> classes = Arrays.asList(
                 PollController.class,
-                VoteController.class
+                VoteController.class,
+                UserController.class
         );
 
         return new HashSet<>(classes);

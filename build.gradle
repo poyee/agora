@@ -15,11 +15,14 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.3'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

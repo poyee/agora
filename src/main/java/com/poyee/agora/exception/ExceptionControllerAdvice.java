@@ -23,11 +23,4 @@ public class ExceptionControllerAdvice {
     public Acknowledgement conflict(ResourceConflictException ex) {
         return ResponseUtils.conflict(ex);
     }
-
-    @ResponseBody
-    @ExceptionHandler(LoginException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Acknowledgement loginError(LoginException ex) {
-        return ResponseUtils.forbidden(ex);
-    }
 }
