@@ -1,7 +1,7 @@
 package com.poyee.agora.poll.mapper;
 
+import com.poyee.agora.bean.PollRequest;
 import com.poyee.agora.entity.Poll;
-import com.poyee.agora.poll.bean.PollRequest;
 import org.modelmapper.PropertyMap;
 
 import java.util.Collections;

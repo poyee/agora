@@ -1,7 +1,7 @@
 package com.poyee.agora.poll;
 
 import com.poyee.agora.bean.PollDto;
-import com.poyee.agora.poll.bean.PollRequest;
+import com.poyee.agora.bean.PollRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

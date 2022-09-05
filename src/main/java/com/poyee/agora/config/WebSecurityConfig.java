@@ -9,6 +9,7 @@ import com.poyee.agora.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,6 +52,11 @@ public class WebSecurityConfig {
                 .exceptionHandling()
                     .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                     .and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, "**").permitAll()
+                    .anyRequest()
+                        .authenticated()
+                        .and()
                 .oauth2Login()
                     .authorizationEndpoint()
                         .authorizationRequestRepository(cookieAuthorizationRequestRepository())

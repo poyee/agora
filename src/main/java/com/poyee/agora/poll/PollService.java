@@ -4,7 +4,7 @@ import com.poyee.agora.bean.OptionDto;
 import com.poyee.agora.bean.PollDto;
 import com.poyee.agora.entity.Poll;
 import com.poyee.agora.exception.NotFoundException;
-import com.poyee.agora.poll.bean.PollRequest;
+import com.poyee.agora.bean.PollRequest;
 import com.poyee.agora.vote.VoteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

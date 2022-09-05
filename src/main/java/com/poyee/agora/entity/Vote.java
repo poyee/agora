@@ -7,36 +7,27 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "option")
 @EntityListeners(AuditingEntityListener.class)
-public class Option {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Vote {
+    @EmbeddedId
+    private VoteId id;
 
-    private Integer number;
-
-    private String name;
+    @CreatedDate
+    @Column(name = "created_time")
+    private LocalDateTime createdTime;
 
     @OneToOne
     @CreatedBy
     @JoinColumn(name="user_id")
     private User user;
-
-    @CreatedDate
-    @Column(name = "created_time")
-    private LocalDateTime createdTime;
 }

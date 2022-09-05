@@ -1,4 +1,4 @@
-package com.poyee.agora.poll.bean;
+package com.poyee.agora.bean;
 
 import lombok.Data;
 
