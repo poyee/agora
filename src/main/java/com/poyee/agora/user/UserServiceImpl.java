@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 
 	@Override
-	@Transactional(value = "transactionManager")
+	@Transactional()
 	public User registerNewUser(final SignUpRequest signUpRequest) throws UserAlreadyExistAuthenticationException {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			throw new UserAlreadyExistAuthenticationException("User with email id " + signUpRequest.getEmail() + " already exist");

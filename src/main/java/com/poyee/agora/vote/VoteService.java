@@ -38,15 +38,26 @@ public class VoteService {
     }
 
     private List<Vote> updateDbVote(User user, VoteRequest voteRequest) {
-        List<Vote> oldVote = this.repository.findById_PollIdAndUser(voteRequest.getPollId(), user);
+        List<Vote> oldVote = getUserSelectedVote(voteRequest.getPollId(), user);
         this.repository.deleteAllById(oldVote.stream()
                 .map(Vote::getId)
                 .collect(Collectors.toList())
         );
 
-        repository.saveAll(toVotes(voteRequest));
+        repository.saveAll(toVotes(voteRequest, user));
 
         return oldVote;
+    }
+
+    public List<Vote> getUserSelectedVote(Long pollId, User user) {
+        return this.repository.findAllById_PollIdAndUser(pollId, user);
+    }
+
+    public int getOptionVote(Long pollId, Integer optionNumber) {
+        ValueOperations<String, String> opt = redisTemplate.opsForValue();
+        String voteNumber = opt.get(RedisUtils.getVoteKey(pollId, optionNumber));
+
+        return voteNumber == null ? 0 : Integer.parseInt(voteNumber);
     }
 
     private void updateRedisVote(List<Vote> oldVote, VoteRequest voteRequest) {
@@ -69,13 +80,6 @@ public class VoteService {
             .forEach(voteNumber -> incrVote(voteRequest.getPollId(), voteNumber));
     }
 
-    public int getVote(Integer pollId, Integer optionNumber) {
-        ValueOperations<String, String> opt = redisTemplate.opsForValue();
-        String voteNumber = opt.get(RedisUtils.getVoteKey(pollId, optionNumber));
-
-        return voteNumber == null ? 0 : Integer.parseInt(voteNumber);
-    }
-
     private void incrVote(Long pollId, Integer optionNumber) {
         ValueOperations<String, String> opt = redisTemplate.opsForValue();
         opt.increment(RedisUtils.getVoteKey(pollId, optionNumber));
@@ -86,10 +90,11 @@ public class VoteService {
         opt.decrement(RedisUtils.getVoteKey(pollId, optionNumber));
     }
 
-    private List<Vote> toVotes(VoteRequest voteRequest) {
+    private List<Vote> toVotes(VoteRequest voteRequest, User user) {
         List<Vote> votes = new ArrayList<>();
         for (Integer optionNumber : voteRequest.getOptionNumbers()) {
             Vote vote = new Vote();
+            vote.setUser(user);
             VoteId voteId = new VoteId();
             voteId.setPollId(voteRequest.getPollId());
             voteId.setNumber(optionNumber);

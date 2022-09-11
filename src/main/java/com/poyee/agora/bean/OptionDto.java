@@ -7,4 +7,7 @@ public class OptionDto {
     private Integer number;
     private String name;
     private int votes;
+
+    private String createdBy;
+    private String createdTime;
 }

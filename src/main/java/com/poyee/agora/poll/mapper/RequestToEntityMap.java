@@ -9,6 +9,6 @@ import java.util.Collections;
 public class RequestToEntityMap extends PropertyMap<PollRequest, Poll> {
     @Override
     protected void configure() {
-        using(new OptionConverter()).map(source.getOptions()).setOptions(Collections.emptyList());
+        using(new OptionRequestToEntityConverter()).map(source.getOptions()).setOptions(Collections.emptyList());
     }
 }

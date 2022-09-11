@@ -7,7 +7,7 @@ import org.modelmapper.AbstractConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OptionConverter extends AbstractConverter<List<PollRequest.Option>, List<Option>> {
+public class OptionRequestToEntityConverter extends AbstractConverter<List<PollRequest.Option>, List<Option>> {
     @Override
     protected List<Option> convert(List<PollRequest.Option> source) {
         List<Option> options = new ArrayList<>();
