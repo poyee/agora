@@ -12,7 +12,6 @@ import com.poyee.agora.user.LocalUser;
 import com.poyee.agora.vote.VoteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class PollService {
 
     @Autowired
     public PollService(PollRepository repository,
-                       @Qualifier("poll") ModelMapper mapper,
+                       ModelMapper mapper,
                        VoteService service) {
         this.mapper = mapper;
         this.repository = repository;

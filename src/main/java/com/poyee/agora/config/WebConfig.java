@@ -1,5 +1,6 @@
 package com.poyee.agora.config;
 
+import com.poyee.agora.comment.CommentController;
 import com.poyee.agora.poll.PollController;
 import com.poyee.agora.user.UserController;
 import com.poyee.agora.vote.VoteController;
@@ -18,7 +19,8 @@ public class WebConfig {
         List<Class<?>> classes = Arrays.asList(
                 PollController.class,
                 VoteController.class,
-                UserController.class
+                UserController.class,
+                CommentController.class
         );
 
         return new HashSet<>(classes);
