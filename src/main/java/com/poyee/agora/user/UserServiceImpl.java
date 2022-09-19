@@ -1,6 +1,7 @@
 package com.poyee.agora.user;
 
 import com.poyee.agora.bean.SignUpRequest;
+import com.poyee.agora.bean.UserDto;
 import com.poyee.agora.entity.Role;
 import com.poyee.agora.entity.User;
 import com.poyee.agora.exception.auth.OAuth2AuthenticationProcessingException;
@@ -8,6 +9,7 @@ import com.poyee.agora.exception.auth.UserAlreadyExistAuthenticationException;
 import com.poyee.agora.role.RoleRepository;
 import com.poyee.agora.security.oauth2.user.OAuth2UserInfo;
 import com.poyee.agora.security.oauth2.user.OAuth2UserInfoFactory;
+import com.poyee.agora.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -83,6 +85,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByEmail(final String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public UserDto updateDisplayName(String displayName, LocalUser user) {
+		User entity = user.getUser();
+		entity.setDisplayName(displayName);
+
+		User savedEntity =  userRepository.save(entity);
+
+		return UserUtils.buildUserDto(savedEntity);
 	}
 
 	private SignUpRequest toUserRegistrationObject(OAuth2UserInfo oAuth2UserInfo) {

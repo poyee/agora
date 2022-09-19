@@ -1,8 +1,11 @@
 package com.poyee.agora.poll;
 
 import com.poyee.agora.bean.OptionRequest;
+import com.poyee.agora.bean.PageRequest;
+import com.poyee.agora.bean.Pagination;
 import com.poyee.agora.bean.PollDto;
 import com.poyee.agora.bean.PollRequest;
+import com.poyee.agora.bean.PollSummaryDto;
 import com.poyee.agora.config.CurrentUser;
 import com.poyee.agora.response.MessageResponse;
 import com.poyee.agora.user.LocalUser;
@@ -22,6 +25,9 @@ public class PollController {
     @Autowired
     private PollService service;
 
+    @Autowired
+    private PollSummaryService summaryService;
+
     @PostMapping("")
     public PollDto createQuestion(@RequestBody @Valid PollRequest request) {
         return service.createPoll(request);
@@ -37,5 +43,10 @@ public class PollController {
         service.createOption(pollId, request.getOption(), user);
 
         return new MessageResponse("儲存 " + request.getOption() + " 成功");
+    }
+
+    @GetMapping("")
+    public Pagination<PollSummaryDto> getPollSummaries(PageRequest pageRequest) {
+        return summaryService.getSummaries(pageRequest);
     }
 }

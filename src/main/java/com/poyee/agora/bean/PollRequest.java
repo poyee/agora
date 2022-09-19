@@ -3,8 +3,8 @@ package com.poyee.agora.bean;
 import lombok.Data;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -12,7 +12,7 @@ public class PollRequest {
     @NotEmpty
     private String title;
     private String description;
-    @Min(2)
+    @Size(min=2)
     @Valid
     private List<Option> options;
     private Boolean multiVote;

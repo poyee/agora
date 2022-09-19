@@ -1,6 +1,7 @@
 package com.poyee.agora.user;
 
 import com.poyee.agora.bean.SignUpRequest;
+import com.poyee.agora.bean.UserDto;
 import com.poyee.agora.entity.User;
 import com.poyee.agora.exception.auth.UserAlreadyExistAuthenticationException;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -21,4 +22,6 @@ public interface UserService {
 	LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
 
 	Optional<User> findById(Long id);
+
+	UserDto updateDisplayName(String displayName, LocalUser user);
 }

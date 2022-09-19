@@ -5,16 +5,13 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PollDto {
+public class PollSummaryDto {
     private Long id;
     private String title;
-    private String description;
     private List<OptionDto> options;
-    private boolean multiVote;
-    private boolean allowNewOption;
 
-    //TODO: we have multi votes in the future
-    private List<Integer> selectedOptions;
+    private int voteCount;
+    private int commentCount;
 
     private String createdBy;
     private String createdTime;

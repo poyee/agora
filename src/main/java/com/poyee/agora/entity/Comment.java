@@ -13,20 +13,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "comment")
 @EntityListeners(AuditingEntityListener.class)
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String body;
+    @Column(name = "poll_id")
     private Long pollId;
 
     @OneToOne
@@ -37,4 +42,11 @@ public class Comment {
     @CreatedDate
     @Column(name = "created_time")
     private LocalDateTime createdTime;
+
+    @OneToMany
+    @JoinColumns({
+        @JoinColumn(name="user_id", referencedColumnName="user_id"),
+        @JoinColumn(name="poll_id", referencedColumnName="poll_id")
+    })
+    private List<Vote> votes;
 }

@@ -21,8 +21,13 @@ public class UserUtils {
     }
 
     public static UserDto buildUserDto(LocalUser localUser) {
-        List<String> roles = localUser.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-        User user = localUser.getUser();
+        return buildUserDto(localUser.getUser());
+    }
+
+    public static UserDto buildUserDto(User user) {
+        List<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toList());
+
         return new UserDto(user.getId(), user.getDisplayName(), user.getEmail(), roles);
+
     }
 }

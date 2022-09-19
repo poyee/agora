@@ -3,12 +3,11 @@ package com.poyee.agora.vote;
 import com.poyee.agora.entity.User;
 import com.poyee.agora.entity.Vote;
 import com.poyee.agora.entity.VoteId;
+import com.poyee.agora.redis.RedisService;
 import com.poyee.agora.user.LocalUser;
 import com.poyee.agora.utils.RedisUtils;
 import com.poyee.agora.vote.bean.VoteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,13 +20,13 @@ import java.util.stream.Collectors;
 public class VoteService {
     private final VoteRepository repository;
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisService redisService;
 
     @Autowired
     public VoteService(VoteRepository repository,
-                       RedisTemplate<String, String> template) {
+                       RedisService redisService) {
         this.repository = repository;
-        redisTemplate = template;
+        this.redisService = redisService;
     }
 
     public void vote(LocalUser localUser, VoteRequest voteRequest) {
@@ -35,6 +34,18 @@ public class VoteService {
         List<Vote> oldVote = updateDbVote(user, voteRequest);
 
         updateRedisVote(oldVote, voteRequest);
+    }
+
+    public List<Vote> getUserSelectedVote(Long pollId, User user) {
+        return this.repository.findAllById_PollIdAndUser(pollId, user);
+    }
+
+    public int getOptionVoteCount(Long pollId, Integer optionNumber) {
+        return redisService.getCount(RedisUtils.getVoteKey(pollId, optionNumber));
+    }
+
+    public int getPollTotalVoteCount(Long pollId) {
+        return redisService.getCount(RedisUtils.getPollTotalVoteKey(pollId));
     }
 
     private List<Vote> updateDbVote(User user, VoteRequest voteRequest) {
@@ -47,17 +58,6 @@ public class VoteService {
         repository.saveAll(toVotes(voteRequest, user));
 
         return oldVote;
-    }
-
-    public List<Vote> getUserSelectedVote(Long pollId, User user) {
-        return this.repository.findAllById_PollIdAndUser(pollId, user);
-    }
-
-    public int getOptionVote(Long pollId, Integer optionNumber) {
-        ValueOperations<String, String> opt = redisTemplate.opsForValue();
-        String voteNumber = opt.get(RedisUtils.getVoteKey(pollId, optionNumber));
-
-        return voteNumber == null ? 0 : Integer.parseInt(voteNumber);
     }
 
     private void updateRedisVote(List<Vote> oldVote, VoteRequest voteRequest) {
@@ -78,16 +78,21 @@ public class VoteService {
         newVoteNumber.stream()
             .filter(voteNumber -> !oldVoteNumber.contains(voteNumber))
             .forEach(voteNumber -> incrVote(voteRequest.getPollId(), voteNumber));
+
+
+        updatePollTotalVote(voteRequest.getPollId(), newVoteNumber.size() - oldVoteNumber.size());
     }
 
     private void incrVote(Long pollId, Integer optionNumber) {
-        ValueOperations<String, String> opt = redisTemplate.opsForValue();
-        opt.increment(RedisUtils.getVoteKey(pollId, optionNumber));
+        redisService.incr(RedisUtils.getVoteKey(pollId, optionNumber));
     }
 
     private void decrVote(Long pollId, Integer optionNumber) {
-        ValueOperations<String, String> opt = redisTemplate.opsForValue();
-        opt.decrement(RedisUtils.getVoteKey(pollId, optionNumber));
+        redisService.decr(RedisUtils.getVoteKey(pollId, optionNumber));
+    }
+
+    private void updatePollTotalVote(Long pollId, long delta) {
+        redisService.incr(RedisUtils.getPollTotalVoteKey(pollId), delta);
     }
 
     private List<Vote> toVotes(VoteRequest voteRequest, User user) {

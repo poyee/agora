@@ -12,6 +12,6 @@ public class CommentEntityToDtoMap extends PropertyMap<Comment, CommentDto> {
     protected void configure() {
         map(source.getUser().getDisplayName()).setCreatedBy(null);
         map(DateTimeUtils.toString(source.getCreatedTime())).setCreatedTime(null);
-        using(new VoteEntityToNumberConverter()).map(source.getUser().getVote()).setVotes(new ArrayList<>());
+        using(new VoteEntityToNumberConverter()).map(source.getVotes()).setVotes(new ArrayList<>());
     }
 }

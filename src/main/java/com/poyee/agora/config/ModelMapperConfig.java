@@ -3,6 +3,7 @@ package com.poyee.agora.config;
 import com.poyee.agora.comment.mapper.CommentEntityToDtoMap;
 import com.poyee.agora.poll.mapper.OptionEntityToDtoMap;
 import com.poyee.agora.poll.mapper.PollEntityToDtoMap;
+import com.poyee.agora.poll.mapper.PollEntityToSummaryMap;
 import com.poyee.agora.poll.mapper.RequestToEntityMap;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ public class ModelMapperConfig {
         mapper.addMappings(new OptionEntityToDtoMap());
         mapper.addMappings(new PollEntityToDtoMap());
         mapper.addMappings(new CommentEntityToDtoMap());
+        mapper.addMappings(new PollEntityToSummaryMap());
 
         return mapper;
     }

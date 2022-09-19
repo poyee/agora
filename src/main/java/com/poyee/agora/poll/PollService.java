@@ -8,6 +8,7 @@ import com.poyee.agora.entity.User;
 import com.poyee.agora.entity.Vote;
 import com.poyee.agora.entity.VoteId;
 import com.poyee.agora.exception.NotFoundException;
+import com.poyee.agora.poll.dao.PollRepository;
 import com.poyee.agora.user.LocalUser;
 import com.poyee.agora.vote.VoteService;
 import org.modelmapper.ModelMapper;
@@ -50,10 +51,10 @@ public class PollService {
         if (optional.isPresent()) {
             Poll entity = optional.get();
             PollDto dto = toDto(entity);
-            populateVotes(dto);
+            populateOptionVoteCounts(dto);
 
             if (Objects.nonNull(localUser)) {
-                populateVotedOptions(dto, localUser.getUser());
+                populateUserSelected(dto, localUser.getUser());
             }
 
             return dto;
@@ -66,14 +67,14 @@ public class PollService {
         repository.createOption(pollId, name, user.getUser().getId());
     }
 
-    private void populateVotes(PollDto poll) {
+    private void populateOptionVoteCounts(PollDto poll) {
         for (OptionDto option : poll.getOptions()) {
-            int voteNumber = voteService.getOptionVote(poll.getId(), option.getNumber());
+            int voteNumber = voteService.getOptionVoteCount(poll.getId(), option.getNumber());
             option.setVotes(voteNumber);
         }
     }
 
-    private void populateVotedOptions(PollDto poll, User user) {
+    private void populateUserSelected(PollDto poll, User user) {
         List<Vote> voteOptions = voteService.getUserSelectedVote(poll.getId(), user);
         poll.setSelectedOptions(voteOptions.stream()
                 .map(Vote::getId)
