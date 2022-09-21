@@ -4,11 +4,12 @@ import com.poyee.agora.bean.OptionDto;
 import com.poyee.agora.bean.PollDto;
 import com.poyee.agora.bean.PollRequest;
 import com.poyee.agora.entity.Poll;
+import com.poyee.agora.bean.ReactType;
 import com.poyee.agora.entity.User;
 import com.poyee.agora.entity.Vote;
 import com.poyee.agora.entity.VoteId;
 import com.poyee.agora.exception.NotFoundException;
-import com.poyee.agora.poll.dao.PollRepository;
+import com.poyee.agora.react.ReactService;
 import com.poyee.agora.user.LocalUser;
 import com.poyee.agora.vote.VoteService;
 import org.modelmapper.ModelMapper;
@@ -29,13 +30,17 @@ public class PollService {
 
     private final VoteService voteService;
 
+    private final ReactService reactService;
+
     @Autowired
     public PollService(PollRepository repository,
                        ModelMapper mapper,
-                       VoteService service) {
+                       VoteService voteService,
+                       ReactService reactService) {
         this.mapper = mapper;
         this.repository = repository;
-        this.voteService = service;
+        this.voteService = voteService;
+        this.reactService = reactService;
     }
 
     public PollDto createPoll(PollRequest request) {
@@ -52,9 +57,14 @@ public class PollService {
             Poll entity = optional.get();
             PollDto dto = toDto(entity);
             populateOptionVoteCounts(dto);
+            populateReactCount(dto);
 
             if (Objects.nonNull(localUser)) {
-                populateUserSelected(dto, localUser.getUser());
+                populateUserVote(dto, localUser.getUser());
+            }
+
+            if (Objects.nonNull(localUser)) {
+                populateUserReact(dto, localUser.getUser());
             }
 
             return dto;
@@ -74,12 +84,25 @@ public class PollService {
         }
     }
 
-    private void populateUserSelected(PollDto poll, User user) {
-        List<Vote> voteOptions = voteService.getUserSelectedVote(poll.getId(), user);
+    private void populateUserVote(PollDto poll, User user) {
+        List<Vote> voteOptions = voteService.getUserVote(poll.getId(), user);
         poll.setSelectedOptions(voteOptions.stream()
                 .map(Vote::getId)
                 .map(VoteId::getNumber)
                 .collect(Collectors.toList()));
+    }
+
+    private void populateReactCount(PollDto dto) {
+        for (ReactType reactType : ReactType.values()) {
+            int count = reactService.getPollReact(dto.getId(), reactType);
+            dto.getReactCount().put(reactType.name(), count);
+        }
+    }
+
+    private void populateUserReact(PollDto dto, User user) {
+        ReactType reactType = reactService.getUserPollReact(dto.getId(), user);
+
+        dto.setUserReact(reactType);
     }
 
     private Poll toEntity(PollRequest request) {

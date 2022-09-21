@@ -6,7 +6,9 @@ import com.poyee.agora.bean.Pagination;
 import com.poyee.agora.bean.PollDto;
 import com.poyee.agora.bean.PollRequest;
 import com.poyee.agora.bean.PollSummaryDto;
+import com.poyee.agora.bean.ReactRequest;
 import com.poyee.agora.config.CurrentUser;
+import com.poyee.agora.react.ReactService;
 import com.poyee.agora.response.MessageResponse;
 import com.poyee.agora.user.LocalUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PollController {
     @Autowired
     private PollSummaryService summaryService;
 
+    @Autowired
+    private ReactService reactService;
+
     @PostMapping("")
     public PollDto createQuestion(@RequestBody @Valid PollRequest request) {
         return service.createPoll(request);
@@ -48,5 +53,12 @@ public class PollController {
     @GetMapping("")
     public Pagination<PollSummaryDto> getPollSummaries(PageRequest pageRequest) {
         return summaryService.getSummaries(pageRequest);
+    }
+
+    @PostMapping("/{id}/reacts")
+    public MessageResponse react(@PathVariable(name = "id") Long pollId, @RequestBody @Valid ReactRequest request, @CurrentUser LocalUser user) {
+        reactService.pollReact(pollId, request, user);
+
+        return new MessageResponse("更新 " + request.getReact() + " 成功");
     }
 }

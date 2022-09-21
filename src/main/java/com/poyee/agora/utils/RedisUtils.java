@@ -12,4 +12,8 @@ public class RedisUtils {
     public static String getPollCommentKey(Long pollId) {
         return String.format("poll_%s_comment_count", pollId);
     }
+
+    public static String getReactKey(long questionId, String react) {
+        return String.format("poll_%s_react_%s_count", questionId, react);
+    }
 }

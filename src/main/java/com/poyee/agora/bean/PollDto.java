@@ -2,7 +2,9 @@ package com.poyee.agora.bean;
 
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class PollDto {
@@ -18,4 +20,7 @@ public class PollDto {
 
     private String createdBy;
     private String createdTime;
+
+    private Map<String, Integer> reactCount = new HashMap<>();
+    private ReactType userReact;
 }

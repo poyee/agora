@@ -5,7 +5,6 @@ import com.poyee.agora.bean.Pagination;
 import com.poyee.agora.bean.PollSummaryDto;
 import com.poyee.agora.comment.CommentService;
 import com.poyee.agora.entity.Poll;
-import com.poyee.agora.poll.dao.PollRepository;
 import com.poyee.agora.utils.PaginationUtils;
 import com.poyee.agora.vote.VoteService;
 import org.modelmapper.ModelMapper;

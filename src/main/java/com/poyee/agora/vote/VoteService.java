@@ -36,7 +36,7 @@ public class VoteService {
         updateRedisVote(oldVote, voteRequest);
     }
 
-    public List<Vote> getUserSelectedVote(Long pollId, User user) {
+    public List<Vote> getUserVote(Long pollId, User user) {
         return this.repository.findAllById_PollIdAndUser(pollId, user);
     }
 
@@ -49,7 +49,7 @@ public class VoteService {
     }
 
     private List<Vote> updateDbVote(User user, VoteRequest voteRequest) {
-        List<Vote> oldVote = getUserSelectedVote(voteRequest.getPollId(), user);
+        List<Vote> oldVote = getUserVote(voteRequest.getPollId(), user);
         this.repository.deleteAllById(oldVote.stream()
                 .map(Vote::getId)
                 .collect(Collectors.toList())
