@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "poll_user_react")
+@Table(name = "`poll_user_react`")
 @EntityListeners(AuditingEntityListener.class)
 public class PollReact {
     @Id

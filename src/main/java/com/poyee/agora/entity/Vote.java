@@ -12,11 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "`vote`")
 @EntityListeners(AuditingEntityListener.class)
 public class Vote {
     @EmbeddedId

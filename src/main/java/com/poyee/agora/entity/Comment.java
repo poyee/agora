@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "comment")
+@Table(name = "`comment`")
 @EntityListeners(AuditingEntityListener.class)
 public class Comment implements Serializable {
     @Id

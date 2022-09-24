@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "poll")
+@Table(name = "`poll`")
 @EntityListeners(AuditingEntityListener.class)
 public class Poll {
     @Id

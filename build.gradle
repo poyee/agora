@@ -4,12 +4,24 @@ plugins {
 	id 'java'
 }
 
+ext {
+	set('springCloudGcpVersion', "3.3.0")
+//	set('springCloudVersion', "2020.0.3")
+}
+
 group = 'com.poyee'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("com.google.cloud:spring-cloud-gcp-dependencies:${property("springCloudGcpVersion")}")
+//		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
 }
 
 dependencies {
@@ -22,6 +34,8 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+	implementation 'mysql:mysql-connector-java:8.0.30'
+	implementation 'com.google.cloud:spring-cloud-gcp-starter-sql-mysql'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

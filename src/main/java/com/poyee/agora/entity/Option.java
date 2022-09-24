@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "option")
+@Table(name = "`option`")
 @EntityListeners(AuditingEntityListener.class)
 public class Option {
     @Id
