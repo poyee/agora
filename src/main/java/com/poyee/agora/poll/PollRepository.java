@@ -13,9 +13,9 @@ import javax.transaction.Transactional;
 public interface PollRepository extends JpaRepository<Poll, Long> {
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO option (poll_id, name, number, user_id) " +
+    @Query(value = "INSERT INTO `option` (poll_id, name, number, user_id) " +
             "SELECT :pollId, :name, (IFNULL(MAX(number), 0)) + 1, :userId " +
-            "FROM option WHERE poll_id = :pollId",
+            "FROM `option` WHERE poll_id = :pollId",
             nativeQuery = true)
     Integer createOption(@Param("pollId") Long pollId, @Param("name") String name, @Param("userId") Long userId);
 }
