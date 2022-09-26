@@ -36,11 +36,11 @@ public class Comment implements Serializable {
 
     @OneToOne
     @CreatedBy
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", updatable = false)
     private User user;
 
     @CreatedDate
-    @Column(name = "created_time")
+    @Column(name = "created_time", updatable = false)
     private LocalDateTime createdTime;
 
     @OneToMany

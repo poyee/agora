@@ -29,6 +29,6 @@ public class PollReact {
 
     @ManyToOne
     @CreatedBy
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", updatable = false)
     private User user;
 }

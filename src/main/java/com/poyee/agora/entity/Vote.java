@@ -25,11 +25,11 @@ public class Vote {
     private VoteId id;
 
     @CreatedDate
-    @Column(name = "created_time")
+    @Column(name = "created_time", updatable = false)
     private LocalDateTime createdTime;
 
     @ManyToOne
     @CreatedBy
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", updatable = false)
     private User user;
 }
