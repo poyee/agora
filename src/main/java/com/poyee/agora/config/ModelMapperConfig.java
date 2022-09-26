@@ -1,6 +1,7 @@
 package com.poyee.agora.config;
 
 import com.poyee.agora.comment.mapper.CommentEntityToDtoMap;
+import com.poyee.agora.comment.mapper.CommentRequestToEntityMap;
 import com.poyee.agora.poll.mapper.OptionEntityToDtoMap;
 import com.poyee.agora.poll.mapper.PollEntityToDtoMap;
 import com.poyee.agora.poll.mapper.PollEntityToSummaryMap;
@@ -20,6 +21,7 @@ public class ModelMapperConfig {
         mapper.addMappings(new PollEntityToDtoMap());
         mapper.addMappings(new CommentEntityToDtoMap());
         mapper.addMappings(new PollEntityToSummaryMap());
+        mapper.addMappings(new CommentRequestToEntityMap());
 
         return mapper;
     }
