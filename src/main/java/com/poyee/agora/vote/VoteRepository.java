@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, VoteId> {
-    List<Vote> findAllById_PollIdAndUser(Long pollId, User user);
+    List<Vote> findAllById_PollIdAndId_User(Long pollId, User user);
 }

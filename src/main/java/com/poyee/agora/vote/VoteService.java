@@ -37,7 +37,7 @@ public class VoteService {
     }
 
     public List<Vote> getUserVote(Long pollId, User user) {
-        return this.repository.findAllById_PollIdAndUser(pollId, user);
+        return this.repository.findAllById_PollIdAndId_User(pollId, user);
     }
 
     public int getOptionVoteCount(Long pollId, Integer optionNumber) {
@@ -55,7 +55,7 @@ public class VoteService {
                 .collect(Collectors.toList())
         );
 
-        repository.saveAll(toVotes(voteRequest, user));
+        repository.saveAll(toVotes(voteRequest));
 
         return oldVote;
     }
@@ -95,11 +95,10 @@ public class VoteService {
         redisService.incr(RedisUtils.getPollTotalVoteKey(pollId), delta);
     }
 
-    private List<Vote> toVotes(VoteRequest voteRequest, User user) {
+    private List<Vote> toVotes(VoteRequest voteRequest) {
         List<Vote> votes = new ArrayList<>();
         for (Integer optionNumber : voteRequest.getOptionNumbers()) {
             Vote vote = new Vote();
-            vote.setUser(user);
             VoteId voteId = new VoteId();
             voteId.setPollId(voteRequest.getPollId());
             voteId.setNumber(optionNumber);
