@@ -10,5 +10,6 @@ public class CommentRequestToEntityMap extends PropertyMap<CommentRequest, Comme
         skip(destination.getId());
         map(source.getPollId()).setPollId(null);
         map(source.getBody()).setBody(null);
+        map(source.isAnonymous()).setAnonymous(false);
     }
 }

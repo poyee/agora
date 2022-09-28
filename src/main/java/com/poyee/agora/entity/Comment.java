@@ -39,6 +39,8 @@ public class Comment implements Serializable {
     @JoinColumn(name="user_id", updatable = false)
     private User user;
 
+    private boolean anonymous;
+
     @CreatedDate
     @Column(name = "created_time", updatable = false)
     private LocalDateTime createdTime;

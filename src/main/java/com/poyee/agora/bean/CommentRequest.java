@@ -11,4 +11,5 @@ public class CommentRequest {
     private Long pollId;
     @NotEmpty
     private String body;
+    private boolean anonymous;
 }
