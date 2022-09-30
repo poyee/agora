@@ -2,6 +2,8 @@ package com.poyee.agora.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +28,8 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "`comment`")
+@SQLDelete(sql = "UPDATE comment SET deleted = 1 WHERE id=?")
+@Where(clause = "deleted=false")
 @EntityListeners(AuditingEntityListener.class)
 public class Comment implements Serializable {
     @Id
@@ -51,4 +56,9 @@ public class Comment implements Serializable {
         @JoinColumn(name="poll_id", referencedColumnName="poll_id")
     })
     private List<Vote> votes;
+
+    @Transient
+    private boolean editable;
+
+    private boolean deleted;
 }

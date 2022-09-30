@@ -23,4 +23,11 @@ public class ExceptionControllerAdvice {
     public Acknowledgement conflict(ResourceConflictException ex) {
         return ResponseUtils.conflict(ex);
     }
+
+    @ResponseBody
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Acknowledgement forbidden(ForbiddenException ex) {
+        return ResponseUtils.forbidden(ex);
+    }
 }

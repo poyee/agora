@@ -1,6 +1,6 @@
 package com.poyee.agora.comment.mapper;
 
-import com.poyee.agora.bean.CommentRequest;
+import com.poyee.agora.comment.bean.CommentRequest;
 import com.poyee.agora.entity.Comment;
 import org.modelmapper.PropertyMap;
 

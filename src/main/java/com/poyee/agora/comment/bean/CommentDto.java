@@ -1,4 +1,4 @@
-package com.poyee.agora.bean;
+package com.poyee.agora.comment.bean;
 
 import lombok.Data;
 
@@ -13,4 +13,5 @@ public class CommentDto {
     private String createdBy;
     private String createdTime;
     private List<Integer> votes;
+    private boolean editable;
 }
