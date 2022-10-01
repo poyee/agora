@@ -9,8 +9,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,7 +56,7 @@ public class Comment implements Serializable {
     @JoinColumns({
         @JoinColumn(name="user_id", referencedColumnName="user_id"),
         @JoinColumn(name="poll_id", referencedColumnName="poll_id")
-    })
+    }, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private List<Vote> votes;
 
     @Transient
