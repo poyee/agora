@@ -25,7 +25,7 @@ public class ReactService {
     }
 
     public int getPollReact(Long pollId, ReactType reactType) {
-        return redisService.getCount(RedisUtils.getReactKey(pollId, reactType.name()));
+        return redisService.getCount(RedisUtils.getReactCountKey(pollId, reactType.name()));
     }
 
     public ReactType getUserPollReact(Long pollId, User user) {
@@ -52,11 +52,11 @@ public class ReactService {
     }
 
     private void incrReactCount(Long pollId, String react) {
-        redisService.incr(RedisUtils.getReactKey(pollId, react));
+        redisService.incr(RedisUtils.getReactCountKey(pollId, react));
     }
 
     private void decrReactCount(Long pollId, String react) {
-        redisService.decr(RedisUtils.getReactKey(pollId, react));
+        redisService.decr(RedisUtils.getReactCountKey(pollId, react));
     }
 
 

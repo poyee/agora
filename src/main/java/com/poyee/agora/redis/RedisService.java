@@ -17,6 +17,11 @@ public class RedisService {
         return count == null ? 0 : Integer.parseInt(count);
     }
 
+    public void set(String key, long value) {
+        ValueOperations<String, String> opt = redisTemplate.opsForValue();
+        opt.set(key, String.valueOf(value));
+    }
+
     public void incr(String key) {
         incr(key, 1);
     }

@@ -38,6 +38,7 @@ dependencies {
 	implementation 'com.google.cloud:spring-cloud-gcp-starter-sql-mysql'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

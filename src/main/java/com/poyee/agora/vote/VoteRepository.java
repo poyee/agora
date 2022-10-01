@@ -10,5 +10,7 @@ import java.util.List;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, VoteId> {
+    long countById_PollIdAndId_Number(Long pollId, Integer number);
+
     List<Vote> findAllById_PollIdAndId_User(Long pollId, User user);
 }

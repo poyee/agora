@@ -41,11 +41,11 @@ public class VoteService {
     }
 
     public int getOptionVoteCount(Long pollId, Integer optionNumber) {
-        return redisService.getCount(RedisUtils.getVoteKey(pollId, optionNumber));
+        return redisService.getCount(RedisUtils.getVoteCountKey(pollId, optionNumber));
     }
 
     public int getPollTotalVoteCount(Long pollId) {
-        return redisService.getCount(RedisUtils.getPollTotalVoteKey(pollId));
+        return redisService.getCount(RedisUtils.getPollTotalVoteCountKey(pollId));
     }
 
     private List<Vote> updateDbVote(User user, VoteRequest voteRequest) {
@@ -84,15 +84,15 @@ public class VoteService {
     }
 
     private void incrVote(Long pollId, Integer optionNumber) {
-        redisService.incr(RedisUtils.getVoteKey(pollId, optionNumber));
+        redisService.incr(RedisUtils.getVoteCountKey(pollId, optionNumber));
     }
 
     private void decrVote(Long pollId, Integer optionNumber) {
-        redisService.decr(RedisUtils.getVoteKey(pollId, optionNumber));
+        redisService.decr(RedisUtils.getVoteCountKey(pollId, optionNumber));
     }
 
     private void updatePollTotalVote(Long pollId, long delta) {
-        redisService.incr(RedisUtils.getPollTotalVoteKey(pollId), delta);
+        redisService.incr(RedisUtils.getPollTotalVoteCountKey(pollId), delta);
     }
 
     private List<Vote> toVotes(VoteRequest voteRequest) {

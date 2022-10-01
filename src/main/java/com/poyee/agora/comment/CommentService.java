@@ -71,11 +71,11 @@ public class CommentService {
     }
 
     public int getPollCommentCount(Long pollId) {
-        return redisService.getCount(RedisUtils.getPollCommentKey(pollId));
+        return redisService.getCount(RedisUtils.getPollCommentCountKey(pollId));
     }
 
     private void updateRedisPollCommentCount(Long pollId) {
-        redisService.incr(RedisUtils.getPollCommentKey(pollId));
+        redisService.incr(RedisUtils.getPollCommentCountKey(pollId));
     }
 
     private Comment toEntity(CommentRequest request) {

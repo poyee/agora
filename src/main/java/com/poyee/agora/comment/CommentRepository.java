@@ -13,6 +13,8 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findAllByPollId(Long pollId);
 
+    long countByPollId(Long pollId);
+
     @Transactional
     @Modifying
     @Query("UPDATE Comment SET deleted = 1 WHERE id=?1")
