@@ -67,7 +67,7 @@ public class CommentService {
             throw new ForbiddenException("無權限刪除此留言");
         }
 
-        repository.deleteById(id);
+        repository.softDeleteById(id);
     }
 
     public int getPollCommentCount(Long pollId) {

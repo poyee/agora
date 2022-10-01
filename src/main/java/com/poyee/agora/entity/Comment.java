@@ -30,7 +30,6 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "`comment`")
-@SQLDelete(sql = "UPDATE comment SET deleted = 1 WHERE id=?")
 @Where(clause = "deleted=false")
 @EntityListeners(AuditingEntityListener.class)
 public class Comment implements Serializable {
@@ -53,7 +52,7 @@ public class Comment implements Serializable {
     private LocalDateTime createdTime;
 
     @OneToMany
-    @JoinColumns({
+    @JoinColumns(value = {
         @JoinColumn(name="user_id", referencedColumnName="user_id"),
         @JoinColumn(name="poll_id", referencedColumnName="poll_id")
     }, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
