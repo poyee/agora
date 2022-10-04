@@ -56,7 +56,10 @@ public class PollService {
         Optional<Poll> optional = repository.findById(id);
         if (optional.isPresent()) {
             Poll entity = optional.get();
-            populateEditable(entity, localUser.getUser());
+            if (Objects.nonNull(localUser)) {
+                populateEditable(entity, localUser.getUser());
+            }
+
             PollDto dto = toDto(entity);
             populateOptionVoteCounts(dto);
             populateReactCount(dto);
