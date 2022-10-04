@@ -2,6 +2,8 @@ package com.poyee.agora.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,6 +23,8 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "`option`")
+@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE option SET deleted = 1 WHERE id=?")
 @EntityListeners(AuditingEntityListener.class)
 public class Option {
     @Id

@@ -23,4 +23,5 @@ public class PollDto {
 
     private Map<String, Integer> reactCount = new HashMap<>();
     private ReactType userReact;
+    private boolean editable;
 }

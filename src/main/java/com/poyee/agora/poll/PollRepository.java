@@ -18,4 +18,9 @@ public interface PollRepository extends JpaRepository<Poll, Long> {
             "FROM `option` WHERE poll_id = :pollId",
             nativeQuery = true)
     Integer createOption(@Param("pollId") Long pollId, @Param("name") String name, @Param("userId") Long userId);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Poll SET deleted = 1 WHERE id=?1")
+    void softDeleteById(Long id);
 }

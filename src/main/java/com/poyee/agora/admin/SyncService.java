@@ -53,7 +53,7 @@ public class SyncService {
         syncPollReactCount(poll.getId());
         logger.info("poll count {} synced", poll.getId());
     }
-    
+
     private void syncPollOptionsCount(Poll poll) {
         int totalCount = 0;
         for (Option option : poll.getOptions()) {

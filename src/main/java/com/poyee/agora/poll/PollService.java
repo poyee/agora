@@ -3,11 +3,12 @@ package com.poyee.agora.poll;
 import com.poyee.agora.bean.OptionDto;
 import com.poyee.agora.bean.PollDto;
 import com.poyee.agora.bean.PollRequest;
-import com.poyee.agora.entity.Poll;
 import com.poyee.agora.bean.ReactType;
+import com.poyee.agora.entity.Poll;
 import com.poyee.agora.entity.User;
 import com.poyee.agora.entity.Vote;
 import com.poyee.agora.entity.VoteId;
+import com.poyee.agora.exception.ForbiddenException;
 import com.poyee.agora.exception.NotFoundException;
 import com.poyee.agora.react.ReactService;
 import com.poyee.agora.user.LocalUser;
@@ -55,6 +56,7 @@ public class PollService {
         Optional<Poll> optional = repository.findById(id);
         if (optional.isPresent()) {
             Poll entity = optional.get();
+            populateEditable(entity, localUser.getUser());
             PollDto dto = toDto(entity);
             populateOptionVoteCounts(dto);
             populateReactCount(dto);
@@ -75,6 +77,22 @@ public class PollService {
 
     public void createOption(Long pollId, String name, LocalUser user) {
         repository.createOption(pollId, name, user.getUser().getId());
+    }
+
+    public void delete(Long id, LocalUser user) {
+        Optional<Poll> pollOpt = repository.findById(id);
+
+        if (!pollOpt.isPresent()) {
+            throw new NotFoundException("投票不存在");
+        }
+
+        Poll poll = pollOpt.get();
+
+        if (!poll.getUser().getId().equals(user.getUser().getId())) {
+            throw new ForbiddenException("無權限刪除此留言");
+        }
+
+        repository.softDeleteById(id);
     }
 
     private void populateOptionVoteCounts(PollDto poll) {
@@ -103,6 +121,14 @@ public class PollService {
         ReactType reactType = reactService.getUserPollReact(dto.getId(), user);
 
         dto.setUserReact(reactType);
+    }
+
+    private void populateEditable(Poll poll, User currentUser) {
+        if (currentUser == null) {
+            return;
+        }
+
+        poll.setEditable(poll.getUser().getId().equals(currentUser.getId()));
     }
 
     private Poll toEntity(PollRequest request) {

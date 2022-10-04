@@ -2,6 +2,7 @@ package com.poyee.agora.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "`poll`")
+@Where(clause = "deleted=false")
 @EntityListeners(AuditingEntityListener.class)
 public class Poll {
     @Id
@@ -32,9 +35,7 @@ public class Poll {
     private String title;
     private String description;
 
-    @OneToMany(cascade = {
-            CascadeType.PERSIST
-    })
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = false)
     @JoinColumn(name="poll_id")
     private List<Option> options;
 
@@ -52,4 +53,9 @@ public class Poll {
     @CreatedDate
     @Column(name = "created_time", updatable = false)
     private LocalDateTime createdTime;
+
+    @Transient
+    private boolean editable;
+
+    private boolean deleted;
 }

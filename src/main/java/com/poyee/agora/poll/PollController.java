@@ -12,6 +12,8 @@ import com.poyee.agora.react.ReactService;
 import com.poyee.agora.response.MessageResponse;
 import com.poyee.agora.user.LocalUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,5 +62,13 @@ public class PollController {
         reactService.pollReact(pollId, request, user);
 
         return new MessageResponse("更新 " + request.getReact() + " 成功");
+    }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('USER')")
+    public MessageResponse delete(@PathVariable(name = "id") Long id, @CurrentUser LocalUser user) {
+        this.service.delete(id, user);
+
+        return new MessageResponse("刪除投票成功");
     }
 }
